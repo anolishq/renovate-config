@@ -1,0 +1,87 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "Shared Renovate preset for the anolishq org.",
+    "Use in a repo's renovate.json via: \"extends\": [\"local>anolishq/renovate-config\"].",
+    "Automerge scope is conservative: GitHub Action digests, dev/lint/test tooling (non-major), and lock-file maintenance. All runtime dependency bumps and majors stay manual.",
+    "Keep only repo-specific rules in each repo (e.g. version blocks, ecosystem groupings)."
+  ],
+  "extends": [
+    "config:recommended"
+  ],
+  "osvVulnerabilityAlerts": true,
+  "ignorePaths": [
+    "requirements.txt",
+    "requirements-lock.txt"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 6am on monday"
+    ],
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      "description": "Group GitHub Actions, pin to digests, and automerge them once CI passes",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "github-actions",
+      "pinDigests": true,
+      "automerge": true
+    },
+    {
+      "description": "Supply-chain safety: hold npm and PyPI updates for 3 days after release",
+      "matchManagers": [
+        "npm",
+        "pep621"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Group Python dev tooling (ruff, pytest, mypy, type stubs)",
+      "matchManagers": [
+        "pep621"
+      ],
+      "matchPackageNames": [
+        "/^ruff/",
+        "/^pytest/",
+        "/^mypy/",
+        "/^types-/"
+      ],
+      "groupName": "python-dev-tooling"
+    },
+    {
+      "description": "Automerge non-major Python dev tooling once CI passes",
+      "matchManagers": [
+        "pep621"
+      ],
+      "matchPackageNames": [
+        "/^ruff/",
+        "/^pytest/",
+        "/^mypy/",
+        "/^types-/"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "description": "Automerge non-major JS/TS dev dependencies (eslint, prettier, types, test tooling) once CI passes",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    }
+  ]
+}

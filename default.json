@@ -23,12 +23,13 @@
   },
   "packageRules": [
     {
-      "description": "Group GitHub Actions, pin to digests, and automerge them once CI passes",
+      "description": "Group GitHub Actions, pin to digests, and automerge them once CI passes — after a 3-day supply-chain soak (GitHub Actions are a prime supply-chain vector; the hold also covers internal anolishq/.github @main-tracked refs so they don't churn on every commit)",
       "matchManagers": [
         "github-actions"
       ],
       "groupName": "github-actions",
       "pinDigests": true,
+      "minimumReleaseAge": "3 days",
       "automerge": true
     },
     {

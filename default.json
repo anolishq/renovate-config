@@ -23,13 +23,24 @@
   },
   "packageRules": [
     {
-      "description": "Group GitHub Actions, pin to digests, and automerge them once CI passes — after a 3-day supply-chain soak (GitHub Actions are a prime supply-chain vector; the hold also covers internal anolishq/.github @main-tracked refs so they don't churn on every commit)",
+      "description": "Group GitHub Actions, pin to digests, and automerge them once CI passes — after a 3-day supply-chain soak (third-party GitHub Actions are a prime supply-chain vector). First-party anolishq actions are exempted below.",
       "matchManagers": [
         "github-actions"
       ],
       "groupName": "github-actions",
       "pinDigests": true,
       "minimumReleaseAge": "3 days",
+      "automerge": true
+    },
+    {
+      "description": "First-party anolishq reusable workflows/actions track the deliberately-released v2 tag (not @main), so they don't churn — and the third-party supply-chain soak must NOT apply, or it holds the OLD digest as canonical and reverts fixes for 3 days. Adopt new first-party releases immediately.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "anolishq/.github"
+      ],
+      "minimumReleaseAge": "0 days",
       "automerge": true
     },
     {

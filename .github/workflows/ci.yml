@@ -22,10 +22,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Validate default.json
-        run: npx --yes --package renovate -- renovate-config-validator --strict default.json
+      - name: Validate default.json and renovate.json
+        run: npx --yes --package renovate -- renovate-config-validator --strict --no-global default.json renovate.json
 
   ok:
     name: ok

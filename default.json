@@ -55,6 +55,22 @@
       "automerge": true
     },
     {
+      "description": "Hold the runner image in release workflows. Release binaries link libc and libstdc++ dynamically from the build runner, and the deployed Pi runs Debian 13 trixie (glibc 2.41), so a newer runner can build binaries that fail to load there. CI and other workflows still get new runners. Move a release runner by hand, after checking the binaries' GLIBC and GLIBCXX versions against the Pi.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDatasources": [
+        "github-runners"
+      ],
+      "matchPackageNames": [
+        "ubuntu"
+      ],
+      "matchFileNames": [
+        ".github/workflows/release.yml"
+      ],
+      "enabled": false
+    },
+    {
       "description": "Supply-chain safety: hold npm and PyPI updates for 3 days after release",
       "matchManagers": [
         "npm",

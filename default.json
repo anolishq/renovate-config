@@ -23,14 +23,13 @@
   },
   "packageRules": [
     {
-      "description": "Group GitHub Actions, pin to digests, and automerge them once CI passes — after a 3-day supply-chain soak (third-party GitHub Actions are a prime supply-chain vector). First-party anolishq actions are exempted below.",
+      "description": "Group GitHub Actions and pin them to digests, after a 3-day supply-chain soak (third-party GitHub Actions are a prime supply-chain vector). First-party anolishq actions are exempted below. Automerge is set by the non-major rule after it.",
       "matchManagers": [
         "github-actions"
       ],
       "groupName": "github-actions",
       "pinDigests": true,
-      "minimumReleaseAge": "3 days",
-      "automerge": true
+      "minimumReleaseAge": "3 days"
     },
     {
       "description": "First-party anolishq reusable workflows/actions track the deliberately-released v2 tag (not @main), so they don't churn — and the third-party supply-chain soak must NOT apply, or it holds the OLD digest as canonical and reverts fixes for 3 days. Adopt new first-party releases immediately.",
@@ -40,7 +39,19 @@
       "matchPackageNames": [
         "anolishq/.github"
       ],
-      "minimumReleaseAge": "0 days",
+      "minimumReleaseAge": "0 days"
+    },
+    {
+      "description": "Automerge non-major GitHub Actions and runner updates (minor, patch, digest, pinDigest) once CI passes, first-party anolishq/.github included. A major (a new action major, a new runner image, anolishq/.github moving from v2 to v3) opens a PR for review: it can change what a workflow builds or runs on.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+        "pinDigest"
+      ],
       "automerge": true
     },
     {

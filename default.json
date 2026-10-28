@@ -10,6 +10,20 @@
     "config:recommended"
   ],
   "osvVulnerabilityAlerts": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Bump the anolishq release a doc-schemas.json reads a schema from (raw.githubusercontent.com/anolishq/<repo>/v<version>/...), used by the docs-check snippet validation.",
+      "managerFilePatterns": [
+        "/(^|/)doc-schemas\\.json$/"
+      ],
+      "matchStrings": [
+        "https://raw\\.githubusercontent\\.com/(?<depName>anolishq/[^/]+)/v(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)/"
+      ],
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    }
+  ],
   "ignorePaths": [
     "requirements.txt",
     "requirements-lock.txt"
